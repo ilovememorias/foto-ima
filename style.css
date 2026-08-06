@@ -52,6 +52,18 @@ h1 {
   line-height: 1.4;
 }
 
+.info-upload{
+  margin-bottom:18px;
+  padding:12px;
+  border-radius:10px;
+  background:#E8F5E9;
+  border:1px solid #C8E6C9;
+  color:#2E7D32;
+  font-size:14px;
+  text-align:center;
+  line-height:20px;
+}
+
 .grupo {
   margin-bottom: 22px;
 }
