@@ -1,0 +1,219 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  width: 100%;
+  min-height: 100dvh;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #ffffff;
+  color: #333333;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.container {
+  width: 100%;
+  min-height: 100dvh;
+}
+
+.card {
+  width: 100%;
+  min-height: 100dvh;
+  padding: 24px;
+  background: #ffffff;
+}
+
+.logo {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 60px;
+}
+
+h1 {
+  margin: 8px 0 0;
+  text-align: center;
+  font-size: 32px;
+}
+
+.descricao {
+  margin: 8px 0 28px;
+  text-align: center;
+  color: #777777;
+  line-height: 1.4;
+}
+
+.grupo {
+  margin-bottom: 22px;
+}
+
+.grupo label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.grupo input {
+  width: 100%;
+  padding: 17px;
+  border: 1px solid #d8d8d8;
+  border-radius: 12px;
+  outline: none;
+  font-size: 16px;
+}
+
+.grupo input:focus {
+  border-color: #4caf50;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.12);
+}
+
+.botoes-foto {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.botao-foto {
+  min-height: 92px;
+  padding: 14px;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  text-align: center;
+}
+
+.botao-camera {
+  background: #2196f3;
+  color: #ffffff;
+}
+
+.botao-galeria {
+  background: #f3f4f5;
+  color: #333333;
+  border: 1px solid #dddddd;
+}
+
+.icone-botao {
+  font-size: 28px;
+}
+
+.input-arquivo {
+  display: none;
+}
+
+.preview {
+  width: 100%;
+  min-height: 310px;
+  border: 2px dashed #d3d3d3;
+  border-radius: 18px;
+  background: #fafafa;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholder {
+  padding: 24px;
+  text-align: center;
+  color: #999999;
+}
+
+.icone-preview {
+  margin-bottom: 10px;
+  font-size: 54px;
+}
+
+.imagem-preview {
+  display: none;
+  width: 100%;
+  height: 310px;
+  object-fit: cover;
+}
+
+.nome-arquivo {
+  min-height: 22px;
+  margin: 16px 0 0;
+  text-align: center;
+  color: #666666;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.botao-trocar,
+.botao-enviar {
+  width: 100%;
+  border: 0;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.botao-trocar {
+  margin-top: 16px;
+  padding: 15px;
+  background: #ffc107;
+  color: #333333;
+}
+
+.botao-enviar {
+  margin-top: 16px;
+  padding: 18px;
+  background: #4caf50;
+  color: #ffffff;
+  font-size: 17px;
+}
+
+.botao-enviar:disabled {
+  background: #a5d6a7;
+  cursor: not-allowed;
+}
+
+.mensagem {
+  min-height: 24px;
+  margin-top: 18px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.rodape {
+  margin: 28px 0 8px;
+  text-align: center;
+  color: #888888;
+  font-size: 14px;
+}
+
+@media (min-width: 700px) {
+  body {
+    background: #eceff1;
+  }
+
+  .container {
+    padding: 32px 20px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .card {
+    max-width: 470px;
+    min-height: auto;
+    padding: 30px;
+    border-radius: 22px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+  }
+}
