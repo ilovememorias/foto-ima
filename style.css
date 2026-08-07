@@ -228,4 +228,12 @@ h1 {
     border-radius: 22px;
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
   }
+
+  .mensagem.sucesso {
+    color: #2e7d32;
+  }
+
+  .mensagem.erro {
+    color: #c62828;
+  }
 }
