@@ -236,4 +236,85 @@ h1 {
   .mensagem.erro {
     color: #c62828;
   }
+  
+  .marca {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+  
+  .logo-marca {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    display: block;
+  }
+  
+  .resumo-pedido {
+    text-align: center;
+    padding: 10px 0 4px;
+  }
+  
+  .icone-sucesso {
+    font-size: 54px;
+    margin-bottom: 10px;
+  }
+  
+  .resumo-pedido h2 {
+    margin: 0;
+    color: #2e7d32;
+    font-size: 24px;
+  }
+  
+  .pedido-andamento {
+    margin: 10px 0 20px;
+    color: #777;
+  }
+  
+  .contador-pedido {
+    padding: 18px;
+    border-radius: 14px;
+    background: #f5f5f5;
+  }
+  
+  .contador-pedido strong {
+    display: block;
+    font-size: 30px;
+    color: #333;
+  }
+  
+  .contador-pedido span {
+    display: block;
+    margin-top: 4px;
+    color: #777;
+  }
+  
+  .texto-restantes {
+    margin: 18px 0;
+    line-height: 1.5;
+    color: #666;
+  }
+  
+  .botao-outra-foto,
+  .botao-finalizar {
+    width: 100%;
+    border: 0;
+    border-radius: 12px;
+    padding: 17px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  
+  .botao-outra-foto {
+    background: #2196f3;
+    color: white;
+    margin-bottom: 12px;
+  }
+  
+  .botao-finalizar {
+    background: #4caf50;
+    color: white;
+  }
+
 }
