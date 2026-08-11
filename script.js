@@ -1,7 +1,7 @@
 let arquivoSelecionado = null;
 
 // COLE AQUI A URL /exec DO APPS SCRIPT
-const API_URL = "https://script.google.com/macros/s/AKfycbwMXk8qRZZFVAL_ibA408Rr3FaGr0fQla01xtUnRskJHkMASSPTKgHKhTbrAd078ZzX/exec";
+const API_URL = "https://foto-ima-api.ilovememorias.workers.dev/";
 
 const camera = document.getElementById("camera");
 const galeria = document.getElementById("galeria");
