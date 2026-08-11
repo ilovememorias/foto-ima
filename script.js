@@ -160,6 +160,16 @@ function enviar() {
     .value
     .trim();
 
+// =========================
+// Criar pedido automaticamente
+// =========================
+
+  if (!pedidoAtual) {
+
+    criarPedido(nome);
+
+  }
+
   if (!nome) {
     mostrarMensagem(
       "Digite seu nome.",
@@ -193,8 +203,10 @@ function enviar() {
       const resposta = await fetch(API_URL, {
         method: "POST",
         body: JSON.stringify({
-          nome: nome,
-          imagem: e.target.result
+        pedidoId: pedidoAtual.id,
+        nome: pedidoAtual.nome,
+        fotoNumero: pedidoAtual.fotos + 1,
+        imagem: e.target.result
         })
       });
 
