@@ -1,4 +1,3 @@
-//let arquivoSelecionado = null;
 // ==========================================
 // Configurações do Pedido
 // ==========================================
@@ -65,6 +64,19 @@ function salvarPedido(){
         JSON.stringify(pedidoAtual)
 
     );
+
+}
+
+
+// ==========================================
+// Incrementar quantidade de fotos
+// ==========================================
+
+function incrementarFoto(){
+
+    pedidoAtual.fotos++;
+
+    salvarPedido();
 
 }
 
@@ -219,19 +231,19 @@ function enviar() {
         );
       }
 
+      incrementarFoto();
+
       mostrarMensagem(
-        "✅ Foto enviada com sucesso!",
+
+       `✅ Foto enviada com sucesso!
+        ${pedidoAtual.fotos} de ${MAX_FOTOS} fotos enviadas.`,
         "sucesso"
+
       );
 
       document.getElementById("nome").value = "";
 
       trocarFoto();
-
-      mostrarMensagem(
-        "✅ Foto enviada com sucesso!",
-        "sucesso"
-      );
 
     } catch (erro) {
 
