@@ -2,7 +2,7 @@
 // Configurações do Pedido
 // ==========================================
 
-const MAX_FOTOS = 5;
+const MAX_FOTOS = 6;
 
 let arquivoSelecionado = null;
 
@@ -108,11 +108,13 @@ const nomeFoto = document.getElementById("nomeFoto");
 const btnTrocar = document.getElementById("btnTrocar");
 const btnEnviar = document.getElementById("btnEnviar");
 const mensagem = document.getElementById("mensagem");
+
 const resumoPedido = document.getElementById("resumoPedido");
 const contadorFotos = document.getElementById("contadorFotos");
 const textoRestantes = document.getElementById("textoRestantes");
 const btnOutraFoto = document.getElementById("btnOutraFoto");
 const btnFinalizarPedido = document.getElementById("btnFinalizarPedido");
+
 const formularioPedido = document.getElementById("formularioPedido");
 
 camera.addEventListener("change", function () {
@@ -126,6 +128,7 @@ galeria.addEventListener("change", function () {
 btnTrocar.addEventListener("click", trocarFoto);
 btnEnviar.addEventListener("click", enviar);
 btnOutraFoto.addEventListener("click", enviarOutraFoto);
+btnFinalizarPedido.addEventListener("click", concluirPedido);
 
 function selecionarArquivo(input) {
 
@@ -339,4 +342,61 @@ function enviarOutraFoto() {
 
   document.getElementById("nome").value =
     pedidoAtual.nome;
+}
+
+function concluirPedido() {
+
+  if (!pedidoAtual) {
+    return;
+  }
+
+  const quantidadeFinal = pedidoAtual.fotos;
+
+  finalizarPedido();
+
+  resumoPedido.innerHTML = `
+    <div class="icone-sucesso">
+      🎉
+    </div>
+
+    <h2>
+      Pedido finalizado!
+    </h2>
+
+    <p class="pedido-andamento">
+      Recebemos suas ${quantidadeFinal}
+      foto${quantidadeFinal > 1 ? "s" : ""}.
+    </p>
+
+    <p class="texto-restantes">
+      Obrigado por compartilhar este momento com a gente.
+    </p>
+
+    <button
+      id="btnNovoPedido"
+      class="botao-outra-foto"
+      type="button"
+    >
+      📷 Fazer novo pedido
+    </button>
+  `;
+
+  resumoPedido.hidden = false;
+  formularioPedido.hidden = true;
+
+  document
+    .getElementById("btnNovoPedido")
+    .addEventListener("click", iniciarNovoPedido);
+}
+
+function iniciarNovoPedido() {
+
+  resumoPedido.hidden = true;
+  formularioPedido.hidden = false;
+
+  document.getElementById("nome").value = "";
+
+  trocarFoto();
+
+  mostrarMensagem("");
 }
