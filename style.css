@@ -237,20 +237,21 @@ h1 {
     color: #c62828;
   }
   
-  .marca {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+.marca {
+  width: 100%;
+  display: flex;
+  justify-content: center !important;
+  align-items: center;
+  text-align: center;
 }
-  
-  .logo-marca {
-    width: 260px;
-    max-width: 90%;
-    height: auto;
-    display: block;
-    margin: 0 auto;
+
+.logo-marca {
+  width: 260px !important;
+  max-width: 90% !important;
+  height: auto !important;
+  display: block !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
   
   .resumo-pedido {
