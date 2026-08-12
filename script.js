@@ -113,6 +113,7 @@ const contadorFotos = document.getElementById("contadorFotos");
 const textoRestantes = document.getElementById("textoRestantes");
 const btnOutraFoto = document.getElementById("btnOutraFoto");
 const btnFinalizarPedido = document.getElementById("btnFinalizarPedido");
+const formularioPedido = document.getElementById("formularioPedido");
 
 camera.addEventListener("change", function () {
   selecionarArquivo(this);
@@ -295,9 +296,10 @@ function mostrarMensagem(texto, tipo) {
 
 function mostrarResumoPedido() {
 
-  const restantes = MAX_FOTOS - pedidoAtual.fotos;
-
+  formularioPedido.hidden = true;
   resumoPedido.hidden = false;
+
+  const restantes = MAX_FOTOS - pedidoAtual.fotos;
 
   contadorFotos.textContent =
     `${pedidoAtual.fotos} de ${MAX_FOTOS}`;
@@ -331,6 +333,7 @@ function enviarOutraFoto() {
   }
 
   resumoPedido.hidden = true;
+  formularioPedido.hidden = false;
 
   trocarFoto();
 
