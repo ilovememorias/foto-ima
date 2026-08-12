@@ -318,6 +318,8 @@ function mostrarResumoPedido() {
 
   }
 
+}
+
 function enviarOutraFoto() {
 
   if (!pedidoAtual) {
@@ -334,6 +336,4 @@ function enviarOutraFoto() {
 
   document.getElementById("nome").value =
     pedidoAtual.nome;
-}
-
 }
