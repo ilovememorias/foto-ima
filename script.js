@@ -124,6 +124,7 @@ galeria.addEventListener("change", function () {
 
 btnTrocar.addEventListener("click", trocarFoto);
 btnEnviar.addEventListener("click", enviar);
+btnOutraFoto.addEventListener("click", enviarOutraFoto);
 
 function selecionarArquivo(input) {
 
@@ -316,5 +317,23 @@ function mostrarResumoPedido() {
     btnOutraFoto.hidden = true;
 
   }
+
+function enviarOutraFoto() {
+
+  if (!pedidoAtual) {
+    return;
+  }
+
+  if (pedidoAtual.fotos >= MAX_FOTOS) {
+    return;
+  }
+
+  resumoPedido.hidden = true;
+
+  trocarFoto();
+
+  document.getElementById("nome").value =
+    pedidoAtual.nome;
+}
 
 }
