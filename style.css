@@ -244,11 +244,11 @@ h1 {
   }
   
   .logo-marca {
-    width: 100%;
-    max-width: 70px;
+    width: 180px;
     height: auto;
     display: block;
-  }
+    margin: 0 auto;
+}
   
   .resumo-pedido {
     text-align: center;
