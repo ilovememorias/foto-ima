@@ -117,6 +117,10 @@ const btnFinalizarPedido = document.getElementById("btnFinalizarPedido");
 
 const formularioPedido = document.getElementById("formularioPedido");
 
+const pedidoFinalizado = document.getElementById("pedidoFinalizado");
+const quantidadeFinal = document.getElementById("quantidadeFinal");
+const btnNovoPedido = document.getElementById("btnNovoPedido");
+
 camera.addEventListener("change", function () {
   selecionarArquivo(this);
 });
@@ -129,6 +133,7 @@ btnTrocar.addEventListener("click", trocarFoto);
 btnEnviar.addEventListener("click", enviar);
 btnOutraFoto.addEventListener("click", enviarOutraFoto);
 btnFinalizarPedido.addEventListener("click", concluirPedido);
+btnNovoPedido.addEventListener("click", iniciarNovoPedido);
 
 function selecionarArquivo(input) {
 
@@ -350,53 +355,44 @@ function concluirPedido() {
     return;
   }
 
-  const quantidadeFinal = pedidoAtual.fotos;
+  const totalFotos = pedidoAtual.fotos;
+
+  quantidadeFinal.textContent =
+    `Recebemos ${totalFotos === 1 ? "sua" : "suas"} ${totalFotos} foto${totalFotos > 1 ? "s" : ""}.`;
 
   finalizarPedido();
 
-  resumoPedido.innerHTML = `
-    <div class="icone-sucesso">
-      🎉
-    </div>
-
-    <h2>
-      Pedido finalizado!
-    </h2>
-
-    <p class="pedido-andamento">
-      Recebemos suas ${quantidadeFinal}
-      foto${quantidadeFinal > 1 ? "s" : ""}.
-    </p>
-
-    <p class="texto-restantes">
-      Obrigado por compartilhar este momento com a gente.
-    </p>
-
-    <button
-      id="btnNovoPedido"
-      class="botao-outra-foto"
-      type="button"
-    >
-      📷 Fazer novo pedido
-    </button>
-  `;
-
-  resumoPedido.hidden = false;
+  resumoPedido.hidden = true;
   formularioPedido.hidden = true;
-
-  document
-    .getElementById("btnNovoPedido")
-    .addEventListener("click", iniciarNovoPedido);
+  pedidoFinalizado.hidden = false;
 }
 
 function iniciarNovoPedido() {
 
+  pedidoAtual = null;
+
+  localStorage.removeItem("fotoImaPedido");
+
+  arquivoSelecionado = null;
+
+  pedidoFinalizado.hidden = true;
   resumoPedido.hidden = true;
   formularioPedido.hidden = false;
 
   document.getElementById("nome").value = "";
 
-  trocarFoto();
+  camera.value = "";
+  galeria.value = "";
+
+  imagemPreview.src = "";
+  imagemPreview.style.display = "none";
+
+  placeholder.style.display = "block";
+
+  nomeFoto.textContent =
+    "Nenhuma foto selecionada";
+
+  btnTrocar.hidden = true;
 
   mostrarMensagem("");
 }
