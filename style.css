@@ -245,9 +245,9 @@ h1 {
     text-align: center;
 }
   
-.logo-marca {
-    width: 180px;
-    max-width: 70%;
+  .logo-marca {
+    width: 260px;
+    max-width: 90%;
     height: auto;
     display: block;
     margin: 0 auto;
