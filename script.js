@@ -317,7 +317,7 @@ function mostrarResumoPedido() {
   } else {
 
     textoRestantes.textContent =
-      "Você atingiu o limite de 5 fotos deste pedido.";
+      `Você atingiu o limite de ${MAX_FOTOS} fotos deste pedido.`;
 
     btnOutraFoto.hidden = true;
 
