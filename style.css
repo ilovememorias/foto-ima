@@ -243,9 +243,13 @@ h1 {
     margin-bottom: 12px;
   }
   
-  .logo-marca {
-    width: 100px;
-    height: auto;
+.logo-marca {
+    width: 120px !important;
+    max-width: 120px !important;
+    min-width: 120px !important;
+
+    height: auto !important;
+
     display: block;
     margin: 0 auto;
 }
