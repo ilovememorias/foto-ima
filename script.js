@@ -286,6 +286,12 @@ function mostrarMensagem(texto, tipo) {
     mensagem.classList.add(tipo);
   }
 
+}
+
+// ==========================================
+// Mostrar resumo do pedido
+// ==========================================
+
 function mostrarResumoPedido() {
 
   const restantes = MAX_FOTOS - pedidoAtual.fotos;
@@ -308,6 +314,7 @@ function mostrarResumoPedido() {
       "Você atingiu o limite de 5 fotos deste pedido.";
 
     btnOutraFoto.hidden = true;
+
   }
-}
+
 }
