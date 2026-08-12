@@ -16,8 +16,7 @@
 
   <title>Foto Ímã</title>
 
-  <link rel="stylesheet" href="style.css?v=0.9.8">
-
+  <link rel="stylesheet" href="style.css?v=0.9.9">
 </head>
 
 <body>
@@ -27,179 +26,232 @@
     <section class="card">
 
       <div class="marca">
-      <img
-        src="imagens/logo-ilove-memorias.png"
-        alt="I Love Memórias"
-        class="logo-marca"
-      >
-      </div>
-
-     <section
-       id="resumoPedido"
-       class="resumo-pedido"
-       hidden
-     >
-     
-       <div class="icone-sucesso">
-         ✅
-       </div>
-     
-       <h2>
-         Foto enviada com sucesso!
-       </h2>
-     
-       <p class="pedido-andamento">
-         Pedido em andamento
-       </p>
-     
-       <div class="contador-pedido">
-         <strong id="contadorFotos">
-           1 de 5
-         </strong>
-     
-         <span>
-           fotos enviadas
-         </span>
-       </div>
-     
-       <p
-         id="textoRestantes"
-         class="texto-restantes"
-       >
-         Você ainda pode enviar mais 4 fotos neste pedido.
-       </p>
-     
-       <button
-         id="btnOutraFoto"
-         class="botao-outra-foto"
-         type="button"
-       >
-         📷 Enviar outra foto
-       </button>
-     
-       <button
-         id="btnFinalizarPedido"
-         class="botao-finalizar"
-         type="button"
-       >
-         ✅ Finalizar pedido
-       </button>
-     
-     </section>
-
-     <div id="formularioPedido">
-
-     <p class="descricao">
-        Eternize este momento especial!
-     </p>
-
-      <div class="grupo">
-
-        <label for="nome">
-          Nome
-        </label>
-
-        <input
-          id="nome"
-          type="text"
-          placeholder="Digite seu nome"
-          autocomplete="name"
-        >
-
-      </div>
-
-      <p class="info-upload">
-        📷 Selecione apenas <strong>1 foto</strong> por envio.
-      </p>
-
-      <div class="botoes-foto">
-
-        <label
-          for="camera"
-          class="botao-foto botao-camera"
-        >
-          <span class="icone-botao">📷</span>
-          <span>Câmera</span>
-        </label>
-
-        <label
-          for="galeria"
-          class="botao-foto botao-galeria"
-        >
-          <span class="icone-botao">🖼️</span>
-          <span>Galeria</span>
-        </label>
-
-      </div>
-
-      <input
-        id="camera"
-        class="input-arquivo"
-        type="file"
-        accept="image/*"
-        capture="environment"
-      >
-
-      <input
-        id="galeria"
-        class="input-arquivo"
-        type="file"
-        accept="image/*"
-      >
-
-      <div
-        id="preview"
-        class="preview"
-      >
-
-        <div
-          id="placeholder"
-          class="placeholder"
-        >
-          <div class="icone-preview">📷</div>
-
-          <p>
-            Sua foto aparecerá aqui
-          </p>
-        </div>
-
         <img
-          id="imagemPreview"
-          class="imagem-preview"
-          alt="Pré-visualização da foto selecionada"
+          src="imagens/logo-ilove-memorias.png"
+          alt="I Love Memórias"
+          class="logo-marca"
         >
-
       </div>
 
-      <p
-        id="nomeFoto"
-        class="nome-arquivo"
-      >
-        Nenhuma foto selecionada
-      </p>
+      <!-- =========================================
+           RESUMO DO PEDIDO EM ANDAMENTO
+      ========================================== -->
 
-      <button
-        id="btnTrocar"
-        class="botao-trocar"
-        type="button"
+      <section
+        id="resumoPedido"
+        class="resumo-pedido"
         hidden
       >
-        🔄 Trocar foto
-      </button>
 
-      <button
-        id="btnEnviar"
-        class="botao-enviar"
-        type="button"
+        <div class="icone-sucesso">
+          ✅
+        </div>
+
+        <h2>
+          Foto enviada com sucesso!
+        </h2>
+
+        <p class="pedido-andamento">
+          Pedido em andamento
+        </p>
+
+        <div class="contador-pedido">
+
+          <strong id="contadorFotos">
+            1 de 6
+          </strong>
+
+          <span>
+            fotos enviadas
+          </span>
+
+        </div>
+
+        <p
+          id="textoRestantes"
+          class="texto-restantes"
+        >
+          Você ainda pode enviar mais 5 fotos neste pedido.
+        </p>
+
+        <button
+          id="btnOutraFoto"
+          class="botao-outra-foto"
+          type="button"
+        >
+          📷 Enviar outra foto
+        </button>
+
+        <button
+          id="btnFinalizarPedido"
+          class="botao-finalizar"
+          type="button"
+        >
+          ✅ Finalizar pedido
+        </button>
+
+      </section>
+
+
+      <!-- =========================================
+           PEDIDO FINALIZADO
+      ========================================== -->
+
+      <section
+        id="pedidoFinalizado"
+        class="resumo-pedido"
+        hidden
       >
-        Enviar foto
-      </button>
 
-      <div
-        id="mensagem"
-        class="mensagem"
-        aria-live="polite"
-      ></div>
+        <div class="icone-sucesso">
+          🎉
+        </div>
+
+        <h2>
+          Pedido finalizado!
+        </h2>
+
+        <p
+          id="quantidadeFinal"
+          class="pedido-andamento"
+        ></p>
+
+        <p class="texto-restantes">
+          Obrigado por compartilhar este momento com a gente.
+        </p>
+
+        <button
+          id="btnNovoPedido"
+          class="botao-outra-foto"
+          type="button"
+        >
+          📷 Fazer novo pedido
+        </button>
+
+      </section>
+
+
+      <!-- =========================================
+           FORMULÁRIO DE ENVIO
+      ========================================== -->
+
+      <div id="formularioPedido">
+
+        <p class="descricao">
+          Eternize este momento especial!
+        </p>
+
+        <div class="grupo">
+
+          <label for="nome">
+            Nome
+          </label>
+
+          <input
+            id="nome"
+            type="text"
+            placeholder="Digite seu nome"
+            autocomplete="name"
+          >
+
+        </div>
+
+        <p class="info-upload">
+          📷 Selecione apenas <strong>1 foto</strong> por envio.
+        </p>
+
+        <div class="botoes-foto">
+
+          <label
+            for="camera"
+            class="botao-foto botao-camera"
+          >
+            <span class="icone-botao">📷</span>
+            <span>Câmera</span>
+          </label>
+
+          <label
+            for="galeria"
+            class="botao-foto botao-galeria"
+          >
+            <span class="icone-botao">🖼️</span>
+            <span>Galeria</span>
+          </label>
+
+        </div>
+
+        <input
+          id="camera"
+          class="input-arquivo"
+          type="file"
+          accept="image/*"
+          capture="environment"
+        >
+
+        <input
+          id="galeria"
+          class="input-arquivo"
+          type="file"
+          accept="image/*"
+        >
+
+        <div
+          id="preview"
+          class="preview"
+        >
+
+          <div
+            id="placeholder"
+            class="placeholder"
+          >
+
+            <div class="icone-preview">
+              📷
+            </div>
+
+            <p>
+              Sua foto aparecerá aqui
+            </p>
+
+          </div>
+
+          <img
+            id="imagemPreview"
+            class="imagem-preview"
+            alt="Pré-visualização da foto selecionada"
+          >
+
+        </div>
+
+        <p
+          id="nomeFoto"
+          class="nome-arquivo"
+        >
+          Nenhuma foto selecionada
+        </p>
+
+        <button
+          id="btnTrocar"
+          class="botao-trocar"
+          type="button"
+          hidden
+        >
+          🔄 Trocar foto
+        </button>
+
+        <button
+          id="btnEnviar"
+          class="botao-enviar"
+          type="button"
+        >
+          Enviar foto
+        </button>
+
+        <div
+          id="mensagem"
+          class="mensagem"
+          aria-live="polite"
+        ></div>
 
       </div>
 
@@ -211,7 +263,7 @@
 
   </main>
 
-  <script src="script.js?v=0.9.8"></script>
+  <script src="script.js?v=0.9.9"></script>
 
 </body>
 
