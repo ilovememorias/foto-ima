@@ -238,10 +238,12 @@ h1 {
   }
   
   .marca {
+    width: 100%;
     display: flex;
     justify-content: center;
-    margin-bottom: 12px;
-  }
+    align-items: center;
+    text-align: center;
+}
   
 .logo-marca {
     width: 180px;
