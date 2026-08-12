@@ -108,6 +108,11 @@ const nomeFoto = document.getElementById("nomeFoto");
 const btnTrocar = document.getElementById("btnTrocar");
 const btnEnviar = document.getElementById("btnEnviar");
 const mensagem = document.getElementById("mensagem");
+const resumoPedido = document.getElementById("resumoPedido");
+const contadorFotos = document.getElementById("contadorFotos");
+const textoRestantes = document.getElementById("textoRestantes");
+const btnOutraFoto = document.getElementById("btnOutraFoto");
+const btnFinalizarPedido = document.getElementById("btnFinalizarPedido");
 
 camera.addEventListener("change", function () {
   selecionarArquivo(this);
@@ -233,6 +238,8 @@ function enviar() {
 
       incrementarFoto();
 
+      mostrarResumoPedido();
+
       mostrarMensagem(
 
        `✅ Foto enviada com sucesso!
@@ -278,4 +285,30 @@ function mostrarMensagem(texto, tipo) {
   if (tipo) {
     mensagem.classList.add(tipo);
   }
+
+function mostrarResumoPedido() {
+
+  const restantes = MAX_FOTOS - pedidoAtual.fotos;
+
+  resumoPedido.hidden = false;
+
+  contadorFotos.textContent =
+    `${pedidoAtual.fotos} de ${MAX_FOTOS}`;
+
+  if (restantes > 0) {
+
+    textoRestantes.textContent =
+      `Você ainda pode enviar mais ${restantes} foto${restantes > 1 ? "s" : ""} neste pedido.`;
+
+    btnOutraFoto.hidden = false;
+
+  } else {
+
+    textoRestantes.textContent =
+      "Você atingiu o limite de 5 fotos deste pedido.";
+
+    btnOutraFoto.hidden = true;
+  }
+  }
+
 }
