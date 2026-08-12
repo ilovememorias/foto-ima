@@ -309,6 +309,5 @@ function mostrarResumoPedido() {
 
     btnOutraFoto.hidden = true;
   }
-  }
-
+}
 }
