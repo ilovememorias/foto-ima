@@ -244,8 +244,8 @@ h1 {
   }
   
   .logo-marca {
-    width: 100%;
-    max-width: 300px;
+    width: 180%;
+    max-width: 70px;
     height: auto;
     display: block;
   }
