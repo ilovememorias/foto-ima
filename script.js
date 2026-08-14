@@ -264,11 +264,16 @@ function enviar() {
 
     } catch (erro) {
 
-      console.error(erro);
+      console.error("ERRO UPLOAD:", erro);
+
+      const detalhesErro =
+        erro?.message ||
+        String(erro);
 
       mostrarMensagem(
-        "❌ Erro ao enviar a foto. Tente novamente.",
-        "erro"
+         `❌ ERRO DEBUG:
+      ${detalhesErro}`,
+       "erro"
       );
 
     } finally {
