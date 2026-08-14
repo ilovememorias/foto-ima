@@ -6,16 +6,63 @@ const MAX_FOTOS = 6;
 
 let arquivoSelecionado = null;
 
-let pedidoAtual = JSON.parse(
-    localStorage.getItem("fotoImaPedido")
-) || null;
+// ==========================================
+// Recuperar pedido salvo
+// ==========================================
+
+let pedidoAtual = null;
+
+try {
+
+    const pedidoSalvo = localStorage.getItem("fotoImaPedido");
+
+    if (pedidoSalvo) {
+
+        const pedido = JSON.parse(pedidoSalvo);
+
+        // Só recupera pedidos válidos.
+        // Isso evita reutilizar pedidos antigos/corrompidos
+        // que tenham sido salvos sem nome.
+        if (
+            pedido &&
+            pedido.id &&
+            pedido.nome &&
+            pedido.nome.trim() &&
+            Number.isInteger(pedido.fotos) &&
+            pedido.fotos >= 0 &&
+            pedido.fotos < MAX_FOTOS
+        ) {
+
+            pedidoAtual = pedido;
+
+        } else {
+
+            localStorage.removeItem("fotoImaPedido");
+
+        }
+    }
+
+} catch (erro) {
+
+    console.error("Erro ao recuperar pedido:", erro);
+
+    localStorage.removeItem("fotoImaPedido");
+
+    pedidoAtual = null;
+}
 
 
 // ==========================================
 // Criar novo pedido
 // ==========================================
 
-function criarPedido(nome){
+function criarPedido(nome) {
+
+    nome = nome.trim();
+
+    if (!nome) {
+        throw new Error("Não é possível criar pedido sem nome.");
+    }
 
     const agora = new Date();
 
@@ -24,16 +71,16 @@ function criarPedido(nome){
         id:
             "PED-" +
             agora.getFullYear() +
-            String(agora.getMonth()+1).padStart(2,"0") +
-            String(agora.getDate()).padStart(2,"0") +
+            String(agora.getMonth() + 1).padStart(2, "0") +
+            String(agora.getDate()).padStart(2, "0") +
             "-" +
-            agora.getHours() +
-            agora.getMinutes() +
-            agora.getSeconds() +
+            String(agora.getHours()).padStart(2, "0") +
+            String(agora.getMinutes()).padStart(2, "0") +
+            String(agora.getSeconds()).padStart(2, "0") +
             "-" +
             Math.random()
                 .toString(36)
-                .substring(2,6)
+                .substring(2, 6)
                 .toUpperCase(),
 
         nome: nome,
@@ -47,7 +94,6 @@ function criarPedido(nome){
     salvarPedido();
 
     return pedido;
-
 }
 
 
@@ -55,16 +101,16 @@ function criarPedido(nome){
 // Salvar Pedido
 // ==========================================
 
-function salvarPedido(){
+function salvarPedido() {
+
+    if (!pedidoAtual) {
+        return;
+    }
 
     localStorage.setItem(
-
         "fotoImaPedido",
-
         JSON.stringify(pedidoAtual)
-
     );
-
 }
 
 
@@ -72,12 +118,15 @@ function salvarPedido(){
 // Incrementar quantidade de fotos
 // ==========================================
 
-function incrementarFoto(){
+function incrementarFoto() {
+
+    if (!pedidoAtual) {
+        return;
+    }
 
     pedidoAtual.fotos++;
 
     salvarPedido();
-
 }
 
 
@@ -85,20 +134,25 @@ function incrementarFoto(){
 // Finalizar Pedido
 // ==========================================
 
-function finalizarPedido(){
+function finalizarPedido() {
 
     pedidoAtual = null;
 
-    localStorage.removeItem(
-
-        "fotoImaPedido"
-
-    );
-
+    localStorage.removeItem("fotoImaPedido");
 }
 
-// COLE AQUI A URL /exec DO APPS SCRIPT
-const API_URL = "https://foto-ima-api.ilovememorias.workers.dev/";
+
+// ==========================================
+// API
+// ==========================================
+
+const API_URL =
+    "https://foto-ima-api.ilovememorias.workers.dev/";
+
+
+// ==========================================
+// Elementos da página
+// ==========================================
 
 const camera = document.getElementById("camera");
 const galeria = document.getElementById("galeria");
@@ -113,20 +167,32 @@ const resumoPedido = document.getElementById("resumoPedido");
 const contadorFotos = document.getElementById("contadorFotos");
 const textoRestantes = document.getElementById("textoRestantes");
 const btnOutraFoto = document.getElementById("btnOutraFoto");
-const btnFinalizarPedido = document.getElementById("btnFinalizarPedido");
+const btnFinalizarPedido =
+    document.getElementById("btnFinalizarPedido");
 
-const formularioPedido = document.getElementById("formularioPedido");
+const formularioPedido =
+    document.getElementById("formularioPedido");
 
-const pedidoFinalizado = document.getElementById("pedidoFinalizado");
-const quantidadeFinal = document.getElementById("quantidadeFinal");
-const btnNovoPedido = document.getElementById("btnNovoPedido");
+const pedidoFinalizado =
+    document.getElementById("pedidoFinalizado");
+
+const quantidadeFinal =
+    document.getElementById("quantidadeFinal");
+
+const btnNovoPedido =
+    document.getElementById("btnNovoPedido");
+
+
+// ==========================================
+// Eventos
+// ==========================================
 
 camera.addEventListener("change", function () {
-  selecionarArquivo(this);
+    selecionarArquivo(this);
 });
 
 galeria.addEventListener("change", function () {
-  selecionarArquivo(this);
+    selecionarArquivo(this);
 });
 
 btnTrocar.addEventListener("click", trocarFoto);
@@ -135,180 +201,352 @@ btnOutraFoto.addEventListener("click", enviarOutraFoto);
 btnFinalizarPedido.addEventListener("click", concluirPedido);
 btnNovoPedido.addEventListener("click", iniciarNovoPedido);
 
+
+// ==========================================
+// Selecionar arquivo
+// ==========================================
+
 function selecionarArquivo(input) {
 
-  if (!input.files || input.files.length === 0) {
-    return;
-  }
+    if (!input.files || input.files.length === 0) {
+        return;
+    }
 
-  arquivoSelecionado = input.files[0];
+    arquivoSelecionado = input.files[0];
 
-  nomeFoto.textContent =
-    "✅ " + arquivoSelecionado.name;
+    nomeFoto.textContent =
+        "✅ " + arquivoSelecionado.name;
 
-  const reader = new FileReader();
+    const reader = new FileReader();
 
-  reader.onload = function (e) {
+    reader.onload = function (e) {
 
-    imagemPreview.src = e.target.result;
-    imagemPreview.style.display = "block";
-    placeholder.style.display = "none";
-    btnTrocar.hidden = false;
+        imagemPreview.src = e.target.result;
+        imagemPreview.style.display = "block";
 
-  };
+        placeholder.style.display = "none";
 
-  reader.readAsDataURL(arquivoSelecionado);
+        btnTrocar.hidden = false;
+    };
+
+    reader.readAsDataURL(arquivoSelecionado);
 }
+
+
+// ==========================================
+// Trocar foto
+// ==========================================
 
 function trocarFoto() {
 
-  arquivoSelecionado = null;
+    arquivoSelecionado = null;
 
-  camera.value = "";
-  galeria.value = "";
+    camera.value = "";
+    galeria.value = "";
 
-  imagemPreview.src = "";
-  imagemPreview.style.display = "none";
+    imagemPreview.src = "";
+    imagemPreview.style.display = "none";
 
-  placeholder.style.display = "block";
+    placeholder.style.display = "block";
 
-  nomeFoto.textContent =
-    "Nenhuma foto selecionada";
+    nomeFoto.textContent =
+        "Nenhuma foto selecionada";
 
-  btnTrocar.hidden = true;
+    btnTrocar.hidden = true;
 
-  mostrarMensagem("");
+    mostrarMensagem("");
 }
+
+
+// ==========================================
+// Enviar foto
+// ==========================================
 
 function enviar() {
 
-  const nome = document
-    .getElementById("nome")
-    .value
-    .trim();
+    const nomeDigitado = document
+        .getElementById("nome")
+        .value
+        .trim();
 
-// =========================
-// Criar pedido automaticamente
-// =========================
 
-  if (!pedidoAtual) {
+    // ======================================
+    // 1. Validar nome ANTES de criar pedido
+    // ======================================
 
-    criarPedido(nome);
+    if (!nomeDigitado) {
 
-  }
-
-  if (!nome) {
-    mostrarMensagem(
-      "Digite seu nome.",
-      "erro"
-    );
-    return;
-  }
-
-  if (!arquivoSelecionado) {
-    mostrarMensagem(
-      "Escolha uma foto.",
-      "erro"
-    );
-    return;
-  }
-
-  btnEnviar.disabled = true;
-  btnEnviar.textContent = "⏳ Enviando...";
-
-  mostrarMensagem(
-    "Aguarde enquanto enviamos sua foto.",
-    ""
-  );
-
-  const reader = new FileReader();
-
-  reader.onload = async function (e) {
-
-    try {
-
-      alert(
-         "DEBUG\n" +
-         "pedidoId: " + pedidoAtual?.id + "\n" +
-         "nome: " + pedidoAtual?.nome + "\n" +
-         "fotos: " + pedidoAtual?.fotos
-      );
-        
-      const resposta = await fetch(API_URL, {
-        method: "POST",
-        body: JSON.stringify({
-        pedidoId: pedidoAtual.id,
-        nome: pedidoAtual.nome,
-        fotoNumero: pedidoAtual.fotos + 1,
-        imagem: e.target.result
-        })
-      });
-
-      const resultado = await resposta.json();
-
-      if (!resultado.sucesso) {
-        throw new Error(
-          resultado.erro ||
-          "Não foi possível enviar a foto."
+        mostrarMensagem(
+            "Digite seu nome.",
+            "erro"
         );
-      }
 
-      incrementarFoto();
+        return;
+    }
 
-      mostrarResumoPedido();
 
-      mostrarMensagem(
+    // ======================================
+    // 2. Validar foto
+    // ======================================
 
-       `✅ Foto enviada com sucesso!
-        ${pedidoAtual.fotos} de ${MAX_FOTOS} fotos enviadas.`,
-        "sucesso"
+    if (!arquivoSelecionado) {
 
-      );
+        mostrarMensagem(
+            "Escolha uma foto.",
+            "erro"
+        );
 
-      document.getElementById("nome").value = "";
+        return;
+    }
 
-      trocarFoto();
 
-    } catch (erro) {
+    // ======================================
+    // 3. Criar pedido somente após validações
+    // ======================================
 
-      console.error("ERRO UPLOAD:", erro);
+    if (!pedidoAtual) {
 
-      const detalhesErro =
-        erro?.message ||
-        String(erro);
-
-      mostrarMensagem(
-         `❌ ERRO DEBUG:
-      ${detalhesErro}`,
-       "erro"
-      );
-
-    } finally {
-
-      btnEnviar.disabled = false;
-      btnEnviar.textContent = "Enviar foto";
+        criarPedido(nomeDigitado);
 
     }
 
-  };
 
-  reader.readAsDataURL(arquivoSelecionado);
+    // ======================================
+    // 4. Proteção contra pedido inválido
+    // ======================================
+
+    if (
+        !pedidoAtual.nome ||
+        !pedidoAtual.nome.trim()
+    ) {
+
+        finalizarPedido();
+
+        criarPedido(nomeDigitado);
+
+    }
+
+
+    // ======================================
+    // 5. Limite de fotos
+    // ======================================
+
+    if (pedidoAtual.fotos >= MAX_FOTOS) {
+
+        mostrarMensagem(
+            `Este pedido já atingiu o limite de ${MAX_FOTOS} fotos.`,
+            "erro"
+        );
+
+        return;
+    }
+
+
+    btnEnviar.disabled = true;
+
+    btnEnviar.textContent =
+        "⏳ Enviando...";
+
+
+    mostrarMensagem(
+        "Aguarde enquanto enviamos sua foto.",
+        ""
+    );
+
+
+    const reader = new FileReader();
+
+
+    reader.onload = async function (e) {
+
+        try {
+
+            // Foto que será enviada.
+            // Importante: calculada antes da requisição.
+            const fotoNumero =
+                pedidoAtual.fotos + 1;
+
+
+            const resposta =
+                await fetch(API_URL, {
+
+                    method: "POST",
+
+                    body: JSON.stringify({
+
+                        pedidoId:
+                            pedidoAtual.id,
+
+                        nome:
+                            pedidoAtual.nome,
+
+                        fotoNumero:
+                            fotoNumero,
+
+                        imagem:
+                            e.target.result
+
+                    })
+
+                });
+
+
+            // ==================================
+            // Ler resposta primeiro como texto
+            // ==================================
+
+            const textoResposta =
+                await resposta.text();
+
+
+            let resultado;
+
+            try {
+
+                resultado =
+                    JSON.parse(textoResposta);
+
+            } catch (erroJson) {
+
+                console.error(
+                    "Resposta inválida da API:",
+                    textoResposta
+                );
+
+                throw new Error(
+                    "O servidor retornou uma resposta inválida."
+                );
+
+            }
+
+
+            // ==================================
+            // Verificar HTTP
+            // ==================================
+
+            if (!resposta.ok) {
+
+                throw new Error(
+                    resultado.erro ||
+                    `Erro HTTP ${resposta.status}`
+                );
+
+            }
+
+
+            // ==================================
+            // Verificar resultado
+            // ==================================
+
+            if (!resultado.sucesso) {
+
+                throw new Error(
+                    resultado.erro ||
+                    "Não foi possível enviar a foto."
+                );
+
+            }
+
+
+            // ==================================
+            // Foto nova
+            // ==================================
+
+            if (!resultado.duplicado) {
+
+                incrementarFoto();
+
+            } else {
+
+                // Se o servidor informar que essa foto
+                // já existe, sincronizamos o contador
+                // local sem criar outra foto.
+
+                pedidoAtual.fotos =
+                    Math.max(
+                        pedidoAtual.fotos,
+                        fotoNumero
+                    );
+
+                salvarPedido();
+
+            }
+
+
+            mostrarResumoPedido();
+
+
+            mostrarMensagem(
+                `✅ Foto enviada com sucesso!
+${pedidoAtual.fotos} de ${MAX_FOTOS} fotos enviadas.`,
+                "sucesso"
+            );
+
+
+            document
+                .getElementById("nome")
+                .value = "";
+
+
+            trocarFoto();
+
+
+        } catch (erro) {
+
+            console.error(
+                "ERRO UPLOAD:",
+                erro
+            );
+
+
+            const detalhesErro =
+                erro?.message ||
+                String(erro);
+
+
+            mostrarMensagem(
+                `❌ Erro ao enviar a foto.
+${detalhesErro}`,
+                "erro"
+            );
+
+
+        } finally {
+
+            btnEnviar.disabled = false;
+
+            btnEnviar.textContent =
+                "Enviar foto";
+
+        }
+
+    };
+
+
+    reader.readAsDataURL(
+        arquivoSelecionado
+    );
 }
+
+
+// ==========================================
+// Mostrar mensagem
+// ==========================================
 
 function mostrarMensagem(texto, tipo) {
 
-  mensagem.textContent = texto;
+    mensagem.textContent = texto;
 
-  mensagem.classList.remove(
-    "sucesso",
-    "erro"
-  );
+    mensagem.classList.remove(
+        "sucesso",
+        "erro"
+    );
 
-  if (tipo) {
-    mensagem.classList.add(tipo);
-  }
-
+    if (tipo) {
+        mensagem.classList.add(tipo);
+    }
 }
+
 
 // ==========================================
 // Mostrar resumo do pedido
@@ -316,95 +554,144 @@ function mostrarMensagem(texto, tipo) {
 
 function mostrarResumoPedido() {
 
-  formularioPedido.hidden = true;
-  resumoPedido.hidden = false;
+    if (!pedidoAtual) {
+        return;
+    }
 
-  const restantes = MAX_FOTOS - pedidoAtual.fotos;
+    formularioPedido.hidden = true;
+    resumoPedido.hidden = false;
 
-  contadorFotos.textContent =
-    `${pedidoAtual.fotos} de ${MAX_FOTOS}`;
 
-  if (restantes > 0) {
+    const restantes =
+        MAX_FOTOS - pedidoAtual.fotos;
 
-    textoRestantes.textContent =
-      `Você ainda pode enviar mais ${restantes} foto${restantes > 1 ? "s" : ""} neste pedido.`;
 
-    btnOutraFoto.hidden = false;
+    contadorFotos.textContent =
+        `${pedidoAtual.fotos} de ${MAX_FOTOS}`;
 
-  } else {
 
-    textoRestantes.textContent =
-      `Você atingiu o limite de ${MAX_FOTOS} fotos deste pedido.`;
+    if (restantes > 0) {
 
-    btnOutraFoto.hidden = true;
+        textoRestantes.textContent =
+            `Você ainda pode enviar mais ${restantes} foto${restantes > 1 ? "s" : ""} neste pedido.`;
 
-  }
+        btnOutraFoto.hidden = false;
 
+    } else {
+
+        textoRestantes.textContent =
+            `Você atingiu o limite de ${MAX_FOTOS} fotos deste pedido.`;
+
+        btnOutraFoto.hidden = true;
+
+    }
 }
+
+
+// ==========================================
+// Enviar outra foto
+// ==========================================
 
 function enviarOutraFoto() {
 
-  if (!pedidoAtual) {
-    return;
-  }
+    if (!pedidoAtual) {
+        return;
+    }
 
-  if (pedidoAtual.fotos >= MAX_FOTOS) {
-    return;
-  }
+    if (pedidoAtual.fotos >= MAX_FOTOS) {
+        return;
+    }
 
-  resumoPedido.hidden = true;
-  formularioPedido.hidden = false;
 
-  trocarFoto();
+    resumoPedido.hidden = true;
 
-  document.getElementById("nome").value =
-    pedidoAtual.nome;
+    formularioPedido.hidden = false;
+
+
+    trocarFoto();
+
+
+    document
+        .getElementById("nome")
+        .value =
+        pedidoAtual.nome;
 }
+
+
+// ==========================================
+// Concluir pedido
+// ==========================================
 
 function concluirPedido() {
 
-  if (!pedidoAtual) {
-    return;
-  }
+    if (!pedidoAtual) {
+        return;
+    }
 
-  const totalFotos = pedidoAtual.fotos;
 
-  quantidadeFinal.textContent =
-    `Recebemos ${totalFotos === 1 ? "sua" : "suas"} ${totalFotos} foto${totalFotos > 1 ? "s" : ""}.`;
+    const totalFotos =
+        pedidoAtual.fotos;
 
-  finalizarPedido();
 
-  resumoPedido.hidden = true;
-  formularioPedido.hidden = true;
-  pedidoFinalizado.hidden = false;
+    quantidadeFinal.textContent =
+        `Recebemos ${totalFotos === 1 ? "sua" : "suas"} ${totalFotos} foto${totalFotos > 1 ? "s" : ""}.`;
+
+
+    finalizarPedido();
+
+
+    resumoPedido.hidden = true;
+
+    formularioPedido.hidden = true;
+
+    pedidoFinalizado.hidden = false;
 }
+
+
+// ==========================================
+// Iniciar novo pedido
+// ==========================================
 
 function iniciarNovoPedido() {
 
-  pedidoAtual = null;
+    finalizarPedido();
 
-  localStorage.removeItem("fotoImaPedido");
+    arquivoSelecionado = null;
 
-  arquivoSelecionado = null;
 
-  pedidoFinalizado.hidden = true;
-  resumoPedido.hidden = true;
-  formularioPedido.hidden = false;
+    pedidoFinalizado.hidden = true;
 
-  document.getElementById("nome").value = "";
+    resumoPedido.hidden = true;
 
-  camera.value = "";
-  galeria.value = "";
+    formularioPedido.hidden = false;
 
-  imagemPreview.src = "";
-  imagemPreview.style.display = "none";
 
-  placeholder.style.display = "block";
+    document
+        .getElementById("nome")
+        .value = "";
 
-  nomeFoto.textContent =
-    "Nenhuma foto selecionada";
 
-  btnTrocar.hidden = true;
+    camera.value = "";
 
-  mostrarMensagem("");
+    galeria.value = "";
+
+
+    imagemPreview.src = "";
+
+    imagemPreview.style.display =
+        "none";
+
+
+    placeholder.style.display =
+        "block";
+
+
+    nomeFoto.textContent =
+        "Nenhuma foto selecionada";
+
+
+    btnTrocar.hidden = true;
+
+
+    mostrarMensagem("");
 }
