@@ -227,6 +227,13 @@ function enviar() {
 
     try {
 
+      alert(
+         "DEBUG\n" +
+         "pedidoId: " + pedidoAtual?.id + "\n" +
+         "nome: " + pedidoAtual?.nome + "\n" +
+         "fotos: " + pedidoAtual?.fotos
+      );
+        
       const resposta = await fetch(API_URL, {
         method: "POST",
         body: JSON.stringify({
